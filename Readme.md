@@ -70,14 +70,23 @@ Make sure you have the following installed:
 
 ### 🧱 Installation
 
-Follow these steps:
-
+**Clone the repository** 
 ```bash
-# 1. Clone the repository
 git clone https://github.com/YourUsername/Medical-Expenditure-Prediction.git
+```
 
-# 2. Navigate to the project directory
+**Navigate to the project directory** 
+```bash
 cd Medical-Expenditure-Prediction
+```
 
-# 3. Install all dependencies
+**Install the required dependencies**
+```bash
 pip install -r requirements.txt
+```
+
+**Run the Flask app**
+```bash
+python app.py
+```
+
