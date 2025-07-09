@@ -72,7 +72,7 @@ Make sure you have the following installed:
 
 **Clone the repository** 
 ```bash
-git clone https://github.com/YourUsername/Medical-Expenditure-Prediction.git
+git clone https://github.com/VedTeredesai7137/Medical-Expenditure-Prediction.git
 ```
 
 **Navigate to the project directory** 
