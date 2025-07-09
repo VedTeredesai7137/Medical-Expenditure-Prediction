@@ -1,0 +1,48 @@
+# Byte-compiled / cache / temp files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.swp
+*.bak
+*.tmp
+*.log
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Environment files
+.env
+venv/
+ENV/
+env/
+*.env
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# VSCode / IDE settings
+.vscode/
+.idea/
+
+# Python virtualenv
+*.egg-info/
+*.eggs/
+*.wheel/
+pip-log.txt
+
+# Model files / large binaries (OPTIONAL: If you don’t want to version model)
+# model.pkl
+
+# Ignore test datasets or backups
+*.csv~
+*.json~
+*.bak
+
+# Render-specific cache or temp (if any)
+.render/
+
+# If you're using Anaconda
+*.conda
+*.ipynb

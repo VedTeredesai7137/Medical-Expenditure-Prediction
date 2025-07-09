@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Charges Prediction</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Header Styling */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        /* Form Container */
+        .form-container {
+            background-color: #ffffff;
+            padding: 25px 20px;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 380px;
+            box-shadow: 0px 15px 35px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        /* Form Headings */
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+            font-weight: 600;
+            font-size: 1.4rem;
+        }
+
+        /* Label Styling */
+        .form-label {
+            font-weight: 500;
+            color: #444;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+        }
+
+        /* Input Group */
+        .input-group-custom {
+            position: relative;
+            margin-bottom: 18px;
+        }
+
+        .input-group-custom .form-control,
+        .input-group-custom .form-select {
+            height: 42px;
+            padding: 8px 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .input-group-custom .form-control:focus,
+        .input-group-custom .form-select:focus {
+            outline: none;
+            border-color: #667eea;
+            background-color: #fff;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        /* Submit Button */
+        .btn-predict {
+            width: 100%;
+            padding: 12px;
+            font-weight: 600;
+            color: #fff;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 15px;
+            margin-top: 10px;
+        }
+
+        .btn-predict:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Prediction Result */
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            color: #155724;
+            font-weight: 600;
+            text-align: center;
+            border-radius: 8px;
+            border: 1px solid #c3e6cb;
+            font-size: 1.1rem;
+        }
+
+        /* Disclaimer */
+        .disclaimer {
+            background: transparent;
+            border: none;
+            padding: 15px;
+            margin-top: 25px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.85);
+            font-style: italic;
+            line-height: 1.5;
+        }
+
+        .disclaimer i {
+            margin-right: 8px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 576px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .form-container {
+                max-width: 350px;
+                padding: 20px 15px;
+            }
+            
+            .input-group-custom .form-control,
+            .input-group-custom .form-select {
+                height: 38px;
+                font-size: 13px;
+            }
+            
+            .btn-predict {
+                padding: 10px;
+                font-size: 14px;
+            }
+        }
+
+        /* Loading animation for button */
+        .btn-predict:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <div class="header">
+        <h1><i class="fas fa-heartbeat"></i> MedPredict</h1>
+        <p>Estimate your medical expenses with ML-powered predictions</p>
+    </div>
+
+    <!-- Form Container -->
+    <div class="form-container">
+        <h2><i class="fas fa-calculator"></i> Calculate Your Estimate</h2>
+        <form method="POST" action="/predict">
+            <div class="input-group-custom">
+                <label for="age" class="form-label">Age</label>
+                <input type="number" class="form-control" name="age" required min="1" max="120" placeholder="Enter your age">
+            </div>
+            
+            <div class="input-group-custom">
+                <label for="sex" class="form-label">Gender</label>
+                <select class="form-select" name="sex" required>
+                    <option value="">Select gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            </div>
+            
+            <div class="input-group-custom">
+                <label for="bmi" class="form-label">BMI (Body Mass Index)</label>
+                <input type="number" step="0.1" class="form-control" name="bmi" required min="10" max="50" placeholder="e.g., 25.5">
+            </div>
+            
+            <div class="input-group-custom">
+                <label for="children" class="form-label">Number of Children</label>
+                <input type="number" class="form-control" name="children" required min="0" max="10" placeholder="0">
+            </div>
+            
+            <div class="input-group-custom">
+                <label for="smoker" class="form-label">Smoking Status</label>
+                <select class="form-select" name="smoker" required>
+                    <option value="">Select smoking status</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+            
+            <div class="input-group-custom">
+                <label for="region" class="form-label">Region</label>
+                <select class="form-select" name="region" required>
+                    <option value="">Select region</option>
+                    <option value="northeast">Northeast</option>
+                    <option value="northwest">Northwest</option>
+                    <option value="southeast">Southeast</option>
+                    <option value="southwest">Southwest</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="btn-predict">
+                <i class="fas fa-chart-line"></i> Predict Medical Charges
+            </button>
+        </form>
+
+        {% if prediction_text %}
+            <div class="result">
+                <i class="fas fa-dollar-sign"></i> {{ prediction_text }}
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Disclaimer -->
+    <div class="disclaimer">
+        <i class="fas fa-exclamation-triangle"></i>
+        <strong>Disclaimer:</strong> This is an ML-powered estimation tool for educational purposes only. 
+        The predicted charges are not guaranteed and should not be considered as medical advice or accurate cost projections. 
+        Always consult with healthcare professionals and insurance providers for actual medical costs.
+    </div>
+</body>
+</html>
